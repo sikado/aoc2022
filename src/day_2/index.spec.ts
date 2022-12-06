@@ -1,5 +1,5 @@
-const { process, getRoundScore, getScoreByOutcome } = require("./index");
-const getData = require("../utils");
+import { process, getRoundScore, getScoreByOutcome } from "./index";
+import { getData } from "../utils";
 
 describe("Day_2", () => {
     test("Test case 1", () => {

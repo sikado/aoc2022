@@ -1,9 +1,4 @@
-/**
- * @param {string[]} data input data
- * @param {number} topElfs number of elfs to sum
- * @returns {number}
- */
-function process(data, topElfs = 1) {
+export function process(data: string[], topElfs = 1): number {
     const groupedElfs = data
         .map((item) => {
             // cast string to number. Elf separator: `null`
@@ -21,7 +16,7 @@ function process(data, topElfs = 1) {
                 const currElf = acc.pop() ?? 0;
                 return [...acc, currElf + val];
             }
-        }, []);
+        }, [] as number[]);
 
     // Sort Elfs
     groupedElfs.sort((a, b) => a - b);
@@ -34,5 +29,3 @@ function process(data, topElfs = 1) {
             .reduce((acc, val) => acc + val, 0)
     );
 }
-
-module.exports = process;

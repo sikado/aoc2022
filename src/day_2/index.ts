@@ -1,9 +1,7 @@
-/**
- * @param {string[]} data input data
- * @param {any} calculationMethod calculation methode by round
- * @returns {any}
- */
-function process(data, calculationMethod) {
+export function process(
+    data: string[],
+    calculationMethod: typeof getRoundScore | typeof getScoreByOutcome
+) {
     return (
         data
             // Filter out invalid lines
@@ -16,7 +14,7 @@ function process(data, calculationMethod) {
 }
 
 // Scores by shape
-const Shape = {
+const Shape: { [key: string]: number } = {
     A: 1,
     B: 2,
     C: 3,
@@ -26,7 +24,7 @@ const Shape = {
 };
 
 // Truth table (Win:6, Lose:0, Draw:3)
-const Outcome = {
+const Outcome: { [key: string]: number } = {
     AX: 3, // Rock - Rock
     AY: 6, // Rock - Paper
     AZ: 0, // Rock - Scissors
@@ -38,28 +36,25 @@ const Outcome = {
     CZ: 3, // Scissors - Scissors
 };
 
-/**
- *
- * @param {[string, string]} round
- * @returns {number}
- */
-function getRoundScore([opponent, self]) {
+export function getRoundScore([opponent, self]: [string, string]): number {
     return Outcome[opponent + self] + Shape[self];
 }
 
-const RoundScore = {
+const RoundScore: { [key: string]: number } = {
     X: 0,
     Y: 3,
     Z: 6,
 };
 
-function getScoreByOutcome([opponent, outcome]) {
+export function getScoreByOutcome([opponent, outcome]: [
+    string,
+    string
+]): number {
     // Get play by outcome
     const [_, selfPlay] = Object.keys(Outcome)
         .filter(([oppPlay, _]) => oppPlay === opponent)
-        .find((key) => Outcome[key] === RoundScore[outcome]);
+        .find((key) => Outcome[key] === RoundScore[outcome])!
+        .split("");
 
     return RoundScore[outcome] + Shape[selfPlay];
 }
-
-module.exports = { process, getRoundScore, getScoreByOutcome };

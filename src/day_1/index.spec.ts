@@ -1,13 +1,13 @@
-const process = require("./index");
-const getData = require("../utils");
+import { process } from "./index";
+import { getData } from "../utils";
 
-describe("Day_X", () => {
-    test("Test case 1", () => {
+describe("Day_1", () => {
+    test("Case 1", () => {
         const data = getData(__dirname + "/tcase.txt");
 
         const output = process(data);
 
-        expect(output).toEqual([""]);
+        expect(output).toEqual(24000);
     });
 
     test("Puzzle 1", () => {
@@ -15,22 +15,22 @@ describe("Day_X", () => {
 
         const output = process(data);
 
-        expect(output).toEqual([""]);
+        expect(output).toEqual(72240);
     });
 
-    test("Test case 2", () => {
+    test("Case 2", () => {
         const data = getData(__dirname + "/tcase.txt");
 
-        const output = process(data);
+        const output = process(data, 3);
 
-        expect(output).toEqual([""]);
+        expect(output).toEqual(45000);
     });
 
     test("Puzzle 2", () => {
         const data = getData(__dirname + "/data.txt");
 
-        const output = process(data);
+        const output = process(data, 3);
 
-        expect(output).toEqual([""]);
+        expect(output).toEqual(210957);
     });
 });

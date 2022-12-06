@@ -1,5 +1,5 @@
-const { part1, part2 } = require("./index");
-const getData = require("../utils");
+import { part1, part2 } from "./index";
+import { getData } from "../utils";
 
 describe("Day_3", () => {
     test("Test case 1", () => {
@@ -31,6 +31,6 @@ describe("Day_3", () => {
 
         const output = part2(data);
 
-        expect(output).toEqual(null);
+        expect(output).toEqual(2752);
     });
 });

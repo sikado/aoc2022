@@ -1,8 +1,4 @@
-/**
- * @param {string[]} data input data
- * @returns {any}
- */
-function part1(data) {
+export function part1(data: string[]): number {
     return (
         data
             // Remove empty lines
@@ -32,11 +28,7 @@ function part1(data) {
     );
 }
 
-/**
- * @param {string[]} data input data
- * @returns {number}
- */
-function part2(data) {
+export function part2(data: string[]): number {
     return (
         data
             // Remove empty lines
@@ -52,7 +44,7 @@ function part2(data) {
                     }
                     return acc;
                 },
-                [[]]
+                [[]] as string[][]
             )
             .map(([rucksack1, rucksack2, rucksack3]) => {
                 // Array of unique item in rucksack 1
@@ -77,11 +69,9 @@ function part2(data) {
 
 /**
  * Convert bag in priority
- * @param {string} char
- * @returns {number}
  */
-function getPriority(char) {
-    const charCode = char.charCodeAt();
+function getPriority(char: string): number {
+    const charCode = char.charCodeAt(0);
 
     if (charCode > 96) {
         return charCode - 96; // Lowercase
@@ -89,5 +79,3 @@ function getPriority(char) {
         return charCode - 65 + 27; // Uppercase (start charcode + offset)
     }
 }
-
-module.exports = { part1, part2 };
