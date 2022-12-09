@@ -1,9 +1,10 @@
 import { process } from "./index";
 import { getData } from "../utils";
+import { join } from "path";
 
 describe("Day_5", () => {
     test("Test case 1", () => {
-        const movesData = getData(__dirname + "/tcase.txt");
+        const movesData = getData(join(__dirname, "tcase.txt"));
         const stackData = [" D ", "NC ", "ZMP"];
 
         const output = process(stackData, movesData, "9000");
@@ -12,7 +13,7 @@ describe("Day_5", () => {
     });
 
     test("Puzzle 1", () => {
-        const movesData = getData(__dirname + "/data.txt");
+        const movesData = getData(join(__dirname, "data.txt"));
         const stackData = [
             "N   R   C",
             "TJ  SJ  N",
@@ -30,7 +31,7 @@ describe("Day_5", () => {
     });
 
     test("Test case 2", () => {
-        const movesData = getData(__dirname + "/tcase.txt");
+        const movesData = getData(join(__dirname, "tcase.txt"));
         const stackData = [" D ", "NC ", "ZMP"];
 
         const output = process(stackData, movesData, "9001");
@@ -39,7 +40,7 @@ describe("Day_5", () => {
     });
 
     test("Puzzle 2", () => {
-        const movesData = getData(__dirname + "/data.txt");
+        const movesData = getData(join(__dirname, "data.txt"));
         const stackData = [
             "N   R   C",
             "TJ  SJ  N",
@@ -53,6 +54,6 @@ describe("Day_5", () => {
 
         const output = process(stackData, movesData, "9001");
 
-        expect(output).toEqual("");
+        expect(output).toEqual("WZMFVGGZP");
     });
 });

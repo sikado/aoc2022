@@ -1,9 +1,10 @@
 import { process } from "./index";
 import { getData } from "../utils";
+import { join } from "path";
 
 describe("Day_4", () => {
     test("Test case 1", () => {
-        const data = getData(__dirname + "/tcase.txt");
+        const data = getData(join(__dirname, "tcase.txt"));
 
         const output = process(data);
 
@@ -11,7 +12,7 @@ describe("Day_4", () => {
     });
 
     test("Puzzle 1", () => {
-        const data = getData(__dirname + "/data.txt");
+        const data = getData(join(__dirname, "data.txt"));
 
         const output = process(data);
 
@@ -19,7 +20,7 @@ describe("Day_4", () => {
     });
 
     test("Test case 2", () => {
-        const data = getData(__dirname + "/tcase.txt");
+        const data = getData(join(__dirname, "tcase.txt"));
 
         const output = process(data, true);
 
@@ -27,7 +28,7 @@ describe("Day_4", () => {
     });
 
     test("Puzzle 2", () => {
-        const data = getData(__dirname + "/data.txt");
+        const data = getData(join(__dirname, "data.txt"));
 
         const output = process(data, true);
 

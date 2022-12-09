@@ -1,3 +1,3 @@
-export function process(data: string[]): number {
+export function process(_data: string[]): number {
     return -1;
 }

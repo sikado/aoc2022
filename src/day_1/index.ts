@@ -8,7 +8,7 @@ export function process(data: string[], topElfs = 1): number {
                 return Number.parseInt(item, 10);
             }
         })
-        .reduce((acc, val) => {
+        .reduce<number[]>((acc, val) => {
             // Sum by elfs
             if (acc.length === 0 || val === null) {
                 return [...acc, val ?? 0];
@@ -16,7 +16,7 @@ export function process(data: string[], topElfs = 1): number {
                 const currElf = acc.pop() ?? 0;
                 return [...acc, currElf + val];
             }
-        }, [] as number[]);
+        }, []);
 
     // Sort Elfs
     groupedElfs.sort((a, b) => a - b);

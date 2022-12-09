@@ -2,7 +2,7 @@ export function part1(data: string[]): number {
     return (
         data
             // Remove empty lines
-            .filter((item) => item != "")
+            .filter((item) => item !== "")
             .map((rucksack) => {
                 // Split pockets
                 // Convert pocket1 in unique array
@@ -15,7 +15,7 @@ export function part1(data: string[]): number {
 
                 const duplicates = pocket1
                     // Find duplicates
-                    .filter((char) => pocket2.indexOf(char) != -1)
+                    .filter((char) => pocket2.includes(char))
                     // Convert to priority
                     .map(getPriority)
                     // Sum bags
@@ -32,9 +32,9 @@ export function part2(data: string[]): number {
     return (
         data
             // Remove empty lines
-            .filter((item) => item != "")
+            .filter((item) => item !== "")
             // group by group of 3
-            .reduce(
+            .reduce<string[][]>(
                 (acc, val) => {
                     const lastTuple = acc[acc.length - 1];
                     if (lastTuple.length < 3) {
@@ -44,7 +44,7 @@ export function part2(data: string[]): number {
                     }
                     return acc;
                 },
-                [[]] as string[][]
+                [[]]
             )
             .map(([rucksack1, rucksack2, rucksack3]) => {
                 // Array of unique item in rucksack 1
@@ -52,9 +52,9 @@ export function part2(data: string[]): number {
 
                 const duplicates = uniqueRuck1
                     // Duplicates between rucksack 1 & 2
-                    .filter((char) => rucksack2.indexOf(char) != -1)
+                    .filter((char) => rucksack2.includes(char))
                     // Duplicates between rucksack 1+2 & 3
-                    .filter((char) => rucksack3.indexOf(char) != -1);
+                    .filter((char) => rucksack3.includes(char));
 
                 if (duplicates.length !== 1) {
                     throw new Error("Non unique badge !");

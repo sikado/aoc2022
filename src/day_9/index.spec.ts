@@ -1,5 +1,6 @@
 import { isAdjacent, process } from "./index";
 import { getData } from "../utils";
+import { join } from "path";
 
 describe("Day_9", () => {
     describe("TDD", () => {
@@ -30,7 +31,7 @@ describe("Day_9", () => {
     });
     describe("Part 1", () => {
         test("Test case", () => {
-            const data = getData(__dirname + "/tcase.txt");
+            const data = getData(join(__dirname, "tcase.txt"));
 
             const output = process(data);
 
@@ -38,7 +39,7 @@ describe("Day_9", () => {
         });
 
         test("Puzzle", () => {
-            const data = getData(__dirname + "/data.txt");
+            const data = getData(join(__dirname, "data.txt"));
 
             const output = process(data);
 
@@ -48,7 +49,7 @@ describe("Day_9", () => {
 
     describe("Part 2", () => {
         test("Test case", () => {
-            const data = getData(__dirname + "/tcase2.txt");
+            const data = getData(join(__dirname, "tcase2.txt"));
 
             const output = process(data, 10);
 
@@ -56,7 +57,7 @@ describe("Day_9", () => {
         });
 
         test("Puzzle", () => {
-            const data = getData(__dirname + "/data.txt");
+            const data = getData(join(__dirname, "data.txt"));
 
             const output = process(data, 10);
 

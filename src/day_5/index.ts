@@ -15,7 +15,7 @@ export function process(
     stackData.reverse().map((line) =>
         line.split("").forEach((item, index) => {
             if (item !== " ") {
-                if (stacks[index]) {
+                if (stacks[index] !== undefined) {
                     stacks[index].push(item);
                 } else {
                     stacks[index] = [item];
