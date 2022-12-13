@@ -1,6 +1,5 @@
-import bigInt from "big-integer";
 
-type Item = bigInt.BigInteger;
+type Item = bigint;
 
 interface Monkey {
     items: Item[];
@@ -11,7 +10,7 @@ interface Monkey {
     inspectedItems: number;
 }
 
-export function process(data: string[], NB_ROUNDS: number): string {
+export function process(data: string[], NB_ROUNDS: number, divBy3 = true): string {
     // Split data by monkeys
     const splitedData = data.reduce<string[][]>(
         (acc, val) => {
@@ -31,7 +30,7 @@ export function process(data: string[], NB_ROUNDS: number): string {
     // Run monkeys `NB_ROUNDS` times
     const debugChecks = [1, 20];
     for (let i = 0; i < NB_ROUNDS; i++) {
-        runMonkeys(monkeys);
+        runMonkeys(monkeys, divBy3);
 
         if (debugChecks.includes(i + 1)) {
             console.log(monkeys.map((monkeys) => monkeys.inspectedItems));
@@ -42,40 +41,40 @@ export function process(data: string[], NB_ROUNDS: number): string {
     const sortedInspectedItems = monkeys
         .map((monkey) => monkey.inspectedItems)
         .sort((a, b) => b - a);
-    return bigInt(sortedInspectedItems[0])
-        .times(bigInt(sortedInspectedItems[1]))
+    return (BigInt(sortedInspectedItems[0])
+        * BigInt(sortedInspectedItems[1]))
         .toString();
 }
 
-function operationFactory(operator: "+" | "*", coef?: number) {
+function operationFactory(operator: "+" | "*", coef?: bigint) {
     if (coef === undefined) {
-        return (item: Item) => item.square();
+        return (item: Item) => item * item;
     }
 
     if (operator === "+") {
-        return (item: Item) => item.add(coef);
+        return (item: Item) => item + coef;
     } else {
-        return (item: Item) => item.times(coef);
+        return (item: Item) => item * coef;
     }
 }
 
-function testFactory(divNb: number) {
-    return (item: Item) => item.mod(divNb) === bigInt(0);
+function testFactory(divNb: bigint) {
+    return (item: Item) => item % divNb === BigInt(0);
 }
 
 function parsingMonkey(serializedMonkey: string[]): Monkey {
     const items = Array.from(serializedMonkey[1].matchAll(/\d+/g), (item) =>
-        bigInt(item[0])
+        BigInt(item[0])
     );
 
     const operator: "+" | "*" = /[+]/.test(serializedMonkey[2]) ? "+" : "*";
     const parsedCoef = serializedMonkey[2].match(/\d+/);
     const coef =
-        parsedCoef !== null ? Number.parseInt(parsedCoef[0]) : undefined;
+        parsedCoef !== null ? BigInt(parsedCoef[0]) : undefined;
 
     const operation = operationFactory(operator, coef);
 
-    const divNb = Number.parseInt(serializedMonkey[3].match(/\d+/)![0], 10);
+    const divNb = BigInt(serializedMonkey[3].match(/\d+/)![0]);
     const test = testFactory(divNb);
 
     const ifTrueNextId = Number.parseInt(
@@ -100,14 +99,18 @@ function parsingMonkey(serializedMonkey: string[]): Monkey {
 /**
  * Inplace monkeys run
  */
-function runMonkeys(monkeys: Monkey[]) {
+function runMonkeys(monkeys: Monkey[], divBy3: boolean) {
     monkeys.forEach((monkey, _, arr) => {
         monkey.inspectedItems += monkey.items.length;
 
         // Apply operation
         monkey.items = monkey.items
-            .map(monkey.operation)
-            .map((item) => item.divmod(3).quotient);
+            .map(monkey.operation);
+
+        if (divBy3) {
+            monkey.items = monkey.items
+                .map((item) => item / BigInt(3));
+        }
 
         // Split based on test
         const [trueItems, falseItems] = monkey.items.reduce<[Item[], Item[]]>(
