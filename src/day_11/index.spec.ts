@@ -44,10 +44,10 @@ describe("Day_11", () => {
 
             const output = process(data, 1000, false);
 
-            expect(output).toEqual("2713310158");
+            expect(output).toEqual("27019168");
         });
 
-        test.skip("Test case", () => {
+        test("Test case", () => {
             const data = getData(join(__dirname, "tcase.txt"));
 
             const output = process(data, 10000, false);
@@ -55,12 +55,12 @@ describe("Day_11", () => {
             expect(output).toEqual("2713310158");
         });
 
-        test.skip("Puzzle", () => {
+        test("Puzzle", () => {
             const data = getData(join(__dirname, "data.txt"));
 
             const output = process(data, 10000, false);
 
-            expect(output).toEqual("0");
+            expect(output).toEqual("15117269860");
         });
     });
 });

@@ -1,7 +1,8 @@
 {
     "extends": "@tsconfig/recommended/tsconfig.json",
     "compilerOptions": {
-        "types": ["node", "vitest/globals"]
+        "types": ["node", "vitest/globals"],
+        "target": "ES2020"
     },
     "include": ["./src/**/*.ts"],
     "exclude": []

@@ -4,7 +4,7 @@ type Item = bigint;
 interface Monkey {
     items: Item[];
     operation: (item: Item) => Item;
-    test: (item: Item) => boolean;
+    divisibleBy: bigint;
     ifTrueNextId: number;
     ifFalseNextId: number;
     inspectedItems: number;
@@ -27,10 +27,12 @@ export function process(data: string[], NB_ROUNDS: number, divBy3 = true): strin
     // Parse monkeys
     const monkeys = splitedData.map(parsingMonkey);
 
+    const lcm = monkeys.map(monkey => monkey.divisibleBy).reduce((acc, val) => acc * val, BigInt(1))
+
     // Run monkeys `NB_ROUNDS` times
     const debugChecks = [1, 20];
     for (let i = 0; i < NB_ROUNDS; i++) {
-        runMonkeys(monkeys, divBy3);
+        runMonkeys(monkeys, divBy3, lcm);
 
         if (debugChecks.includes(i + 1)) {
             console.log(monkeys.map((monkeys) => monkeys.inspectedItems));
@@ -59,7 +61,7 @@ function operationFactory(operator: "+" | "*", coef?: bigint) {
 }
 
 function testFactory(divNb: bigint) {
-    return (item: Item) => item % divNb === BigInt(0);
+    return (item: Item) => item % divNb === 0n;
 }
 
 function parsingMonkey(serializedMonkey: string[]): Monkey {
@@ -74,8 +76,7 @@ function parsingMonkey(serializedMonkey: string[]): Monkey {
 
     const operation = operationFactory(operator, coef);
 
-    const divNb = BigInt(serializedMonkey[3].match(/\d+/)![0]);
-    const test = testFactory(divNb);
+    const divisibleBy = BigInt(serializedMonkey[3].match(/\d+/)![0]);
 
     const ifTrueNextId = Number.parseInt(
         serializedMonkey[4].match(/\d+/)![0],
@@ -89,7 +90,7 @@ function parsingMonkey(serializedMonkey: string[]): Monkey {
     return {
         items,
         operation,
-        test,
+        divisibleBy,
         ifTrueNextId,
         ifFalseNextId,
         inspectedItems: 0,
@@ -99,7 +100,7 @@ function parsingMonkey(serializedMonkey: string[]): Monkey {
 /**
  * Inplace monkeys run
  */
-function runMonkeys(monkeys: Monkey[], divBy3: boolean) {
+function runMonkeys(monkeys: Monkey[], divBy3: boolean, lcm: bigint) {
     monkeys.forEach((monkey, _, arr) => {
         monkey.inspectedItems += monkey.items.length;
 
@@ -110,15 +111,17 @@ function runMonkeys(monkeys: Monkey[], divBy3: boolean) {
         if (divBy3) {
             monkey.items = monkey.items
                 .map((item) => item / BigInt(3));
+        } else {
+            monkey.items = monkey.items.map(item => item % lcm)
         }
 
         // Split based on test
         const [trueItems, falseItems] = monkey.items.reduce<[Item[], Item[]]>(
-            (acc, val) => {
-                if (monkey.test(val)) {
-                    acc[0].push(val);
+            (acc, item) => {
+                if (item % monkey.divisibleBy === 0n) {
+                    acc[0].push(item);
                 } else {
-                    acc[1].push(val);
+                    acc[1].push(item);
                 }
                 return acc;
             },
