@@ -1,4 +1,3 @@
-
 type Item = bigint;
 
 interface Monkey {
@@ -10,7 +9,11 @@ interface Monkey {
     inspectedItems: number;
 }
 
-export function process(data: string[], NB_ROUNDS: number, divBy3 = true): string {
+export function process(
+    data: string[],
+    NB_ROUNDS: number,
+    divBy3 = true
+): string {
     // Split data by monkeys
     const splitedData = data.reduce<string[][]>(
         (acc, val) => {
@@ -27,7 +30,9 @@ export function process(data: string[], NB_ROUNDS: number, divBy3 = true): strin
     // Parse monkeys
     const monkeys = splitedData.map(parsingMonkey);
 
-    const lcm = monkeys.map(monkey => monkey.divisibleBy).reduce((acc, val) => acc * val, BigInt(1))
+    const lcm = monkeys
+        .map((monkey) => monkey.divisibleBy)
+        .reduce((acc, val) => acc * val, BigInt(1));
 
     // Run monkeys `NB_ROUNDS` times
     const debugChecks = [1, 20];
@@ -43,9 +48,9 @@ export function process(data: string[], NB_ROUNDS: number, divBy3 = true): strin
     const sortedInspectedItems = monkeys
         .map((monkey) => monkey.inspectedItems)
         .sort((a, b) => b - a);
-    return (BigInt(sortedInspectedItems[0])
-        * BigInt(sortedInspectedItems[1]))
-        .toString();
+    return (
+        BigInt(sortedInspectedItems[0]) * BigInt(sortedInspectedItems[1])
+    ).toString();
 }
 
 function operationFactory(operator: "+" | "*", coef?: bigint) {
@@ -60,7 +65,7 @@ function operationFactory(operator: "+" | "*", coef?: bigint) {
     }
 }
 
-function testFactory(divNb: bigint) {
+function _testFactory(divNb: bigint) {
     return (item: Item) => item % divNb === 0n;
 }
 
@@ -71,8 +76,7 @@ function parsingMonkey(serializedMonkey: string[]): Monkey {
 
     const operator: "+" | "*" = /[+]/.test(serializedMonkey[2]) ? "+" : "*";
     const parsedCoef = serializedMonkey[2].match(/\d+/);
-    const coef =
-        parsedCoef !== null ? BigInt(parsedCoef[0]) : undefined;
+    const coef = parsedCoef !== null ? BigInt(parsedCoef[0]) : undefined;
 
     const operation = operationFactory(operator, coef);
 
@@ -105,14 +109,12 @@ function runMonkeys(monkeys: Monkey[], divBy3: boolean, lcm: bigint) {
         monkey.inspectedItems += monkey.items.length;
 
         // Apply operation
-        monkey.items = monkey.items
-            .map(monkey.operation);
+        monkey.items = monkey.items.map(monkey.operation);
 
         if (divBy3) {
-            monkey.items = monkey.items
-                .map((item) => item / BigInt(3));
+            monkey.items = monkey.items.map((item) => item / BigInt(3));
         } else {
-            monkey.items = monkey.items.map(item => item % lcm)
+            monkey.items = monkey.items.map((item) => item % lcm);
         }
 
         // Split based on test

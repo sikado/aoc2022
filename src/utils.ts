@@ -5,16 +5,16 @@ export function getData(fileName = "data.txt"): string[] {
 }
 
 /**
- * Merge two array into 2-tuples of their items. 
+ * Merge two array into 2-tuples of their items.
  * Set item to null if lenght not equal
  */
-export function zip<T, U>(a: T[], b: U[]): Array<[(T | U | null), (T | U | null)]> {
+export function zip<T, U>(a: T[], b: U[]): Array<[T | U | null, T | U | null]> {
     const maxLength = a.length > b.length ? a.length : b.length;
 
-    const output: Array<[(T | U | null), (T | U | null)]> = [];
+    const output: Array<[T | U | null, T | U | null]> = [];
 
     for (let i = 0; i < maxLength; i++) {
-        output.push([a[i] ?? null, b[i] ?? null])
+        output.push([a[i] ?? null, b[i] ?? null]);
     }
 
     return output;
@@ -31,12 +31,12 @@ export interface Coord {
 export function getPointsFromLine(a: Coord, b: Coord): Coord[] {
     if (a.x === b.x) {
         const yCoord = range(a.y, b.y);
-        return yCoord.map(y => ({ x: a.x, y }))
+        return yCoord.map((y) => ({ x: a.x, y }));
     } else if (a.y === b.y) {
         const xCoord = range(a.x, b.x);
-        return xCoord.map(x => ({ x, y: a.y }))
+        return xCoord.map((x) => ({ x, y: a.y }));
     } else {
-        throw new Error('Line isn\'t straight');
+        throw new Error("Line isn't straight");
     }
 }
 
@@ -44,7 +44,10 @@ export function getPointsFromLine(a: Coord, b: Coord): Coord[] {
  * Return an array filled with value between a & b (inclusive, in asc order)
  */
 export function range(a: number, b: number) {
-    return Array.from<number, number>({ length: Math.abs(a - b) + 1 }, (_, index) => Math.min(a, b) + index)
+    return Array.from<number, number>(
+        { length: Math.abs(a - b) + 1 },
+        (_, index) => Math.min(a, b) + index
+    );
 }
 
 export function coordEq(a: Coord, b: Coord): boolean {

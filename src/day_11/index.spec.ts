@@ -22,7 +22,6 @@ describe("Day_11", () => {
     });
 
     describe("Part 2", () => {
-
         test("Pre-test case, 1 round", () => {
             const data = getData(join(__dirname, "tcase.txt"));
 

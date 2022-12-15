@@ -1,8 +1,9 @@
 module.exports = {
     env: {
-        browser: true,
+        node: true,
         es2021: true,
     },
+    ignorePatterns: ["vite.config.ts"],
     extends: ["standard-with-typescript", "prettier"],
     overrides: [
         {
