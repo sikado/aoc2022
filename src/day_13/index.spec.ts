@@ -4,7 +4,7 @@ import { join } from "path";
 import { data as tcaseData } from "./tcase";
 import { data as inputData } from "./data";
 
-describe("Day_13", () => {
+describe.skip("Day_13", () => {
     describe("Part 1", () => {
         describe.skip("test parsing", () => {
             test("parse simple packet", () => {
