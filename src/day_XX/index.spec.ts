@@ -2,7 +2,7 @@ import { process } from "./index";
 import { getData } from "../utils";
 import { join } from "path";
 
-describe("Day_X", () => {
+describe("Day_XX", () => {
     describe("Part 1", () => {
         test("Test case", () => {
             const data = getData(join(__dirname, "tcase.txt"));
