@@ -1,4 +1,4 @@
-import { getPointsFromLine, range, zip } from "./utils";
+import { getPointsFromLine, mergeRanges, range, zip } from "./utils";
 
 describe("Zip", () => {
     test("Should merge two arrays", () => {
@@ -55,16 +55,16 @@ describe("Zip", () => {
 
 describe("range", () => {
     test("return range from 1 to 5", () => {
-        expect(range(1, 5)).toEqual([1, 2, 3, 4, 5]);
+        expect(range([1, 5])).toEqual([1, 2, 3, 4, 5]);
     });
     test("return range from 1 to 5 with reverse param", () => {
-        expect(range(5, 1)).toEqual([1, 2, 3, 4, 5]);
+        expect(range([5, 1])).toEqual([1, 2, 3, 4, 5]);
     });
     test("return single value if a=b", () => {
-        expect(range(5, 5)).toEqual([5]);
+        expect(range([5, 5])).toEqual([5]);
     });
     test("return range on negative value", () => {
-        expect(range(-3, 2)).toEqual([-3, -2, -1, 0, 1, 2]);
+        expect(range([-3, 2])).toEqual([-3, -2, -1, 0, 1, 2]);
     });
 });
 
@@ -102,5 +102,26 @@ describe("getPointsFromLine", () => {
             { x: 0, y: 4 },
             { x: 0, y: 5 },
         ]);
+    });
+});
+
+describe('mergeRange', () => {
+    test('should merge adjacent ranges', () => {
+        expect(mergeRanges([2, 4], [4, 6])).toEqual([2, 6]);
+    });
+    test('should merge adjacent ranges', () => {
+        expect(mergeRanges([4, 6], [2, 4])).toEqual([2, 6]);
+    });
+    test('should merge adjacent ranges', () => {
+        expect(mergeRanges([6, 4], [2, 4])).toEqual([2, 6]);
+    });
+    test('should merge included ranges', () => {
+        expect(mergeRanges([1, 2], [-3, 4])).toEqual([-3, 4]);
+    });
+    test('should merge included ranges 2', () => {
+        expect(mergeRanges([-3, 4], [1, 2])).toEqual([-3, 4]);
+    });
+    test('should not merge unadjacent ranges', () => {
+        expect(mergeRanges([1, 2], [4, 6])).toEqual(expect.arrayContaining([[1, 2], [4, 6]]));
     });
 });
