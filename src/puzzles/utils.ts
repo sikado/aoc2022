@@ -25,6 +25,11 @@ export interface Coord {
     y: number;
 }
 
+export interface Size {
+    w: number;
+    h: number;
+}
+
 /**
  * Return every points from a straight line
  */
