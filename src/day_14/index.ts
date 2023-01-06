@@ -87,9 +87,9 @@ export function process(data: string[], hasFloor = false) {
             });
         }
 
-        // eslint-disable-next-line no-unmodified-loop-condition
     } while (
         !coordEq(currentGrain, SAND_ORIGIN) &&
+        // eslint-disable-next-line no-unmodified-loop-condition
         (hasFloor || !isIntoAbyss(currentGrain, maxY))
     );
 
