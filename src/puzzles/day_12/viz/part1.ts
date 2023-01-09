@@ -4,32 +4,35 @@ import rawData from '../data.txt?raw';
 import { drawGrid, highlightCell } from './utils';
 
 
-const sketch = (p5: P5) => {
-
-    const RECT_SIZE = 7
-
-    const data: string[] = rawData.split('\n');
-
-    const grid = new Grid(data);
-
-    p5.setup = () => {
-        p5.createCanvas(grid._gridSize.w * RECT_SIZE, grid._gridSize.h * RECT_SIZE);
-
-        drawGrid(p5, grid._grid, RECT_SIZE);
-
-    }
+const sketch = (containerWidth: number) => {
+    return (p5: P5) => {
 
 
-    p5.draw = () => {
-        if (!grid.hasCellToVisit()) {
-            p5.noLoop();
-            return;
+        const data: string[] = rawData.split('\n');
+
+        const grid = new Grid(data);
+
+        const RECT_SIZE = Math.floor(containerWidth / grid._gridSize.w * 10) / 10
+
+        p5.setup = () => {
+            p5.createCanvas(grid._gridSize.w * RECT_SIZE, grid._gridSize.h * RECT_SIZE);
+
+            drawGrid(p5, grid._grid, RECT_SIZE);
+
         }
 
-        highlightCell(p5, grid.visitCell(), RECT_SIZE)
+
+        p5.draw = () => {
+            if (!grid.hasCellToVisit()) {
+                p5.noLoop();
+                return;
+            }
+
+            highlightCell(p5, grid.visitCell(), RECT_SIZE)
+
+        }
 
     }
-
 };
 
 export default sketch

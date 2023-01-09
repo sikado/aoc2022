@@ -2,7 +2,7 @@ import P5 from "p5";
 import { Component, createRef } from "react";
 
 export interface SketchProps {
-    sketch: (p5: P5) => void;
+    sketch: (width: number) => (p5: P5) => void;
 }
 
 export default class Sketch extends Component<SketchProps> {
@@ -15,7 +15,10 @@ export default class Sketch extends Component<SketchProps> {
     }
 
     componentDidMount() {
-        this.P5Instance = new P5(this.props.sketch, this.canvaParent.current!);
+        this.P5Instance = new P5(
+            this.props.sketch(this.canvaParent.current!.clientWidth),
+            this.canvaParent.current!
+        );
     }
 
     componentWillUnmount(): void {
