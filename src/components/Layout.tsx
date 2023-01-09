@@ -2,7 +2,7 @@ import { Link, Outlet } from "react-router-dom";
 
 export default function Layout() {
     return (
-        <div className="col-md-8 py-3 px-3 mx-auto">
+        <div className="container py-3 ">
             <header className="pb-3 mb-5 border-bottom">
                 <nav className="navbar navbar-expand-lg bg-body-tertiary">
                     <div className="container-fluid">
@@ -40,7 +40,7 @@ export default function Layout() {
                 </nav>
             </header>
 
-            <div className="col-lg-8 px-0 mx-auto">
+            <div className="col px-0">
                 <Outlet />
             </div>
             <footer className="mt-5">

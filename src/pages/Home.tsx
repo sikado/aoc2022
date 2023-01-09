@@ -48,7 +48,7 @@ export default function Home() {
                         target={"_blank"}
                         href={`${ROOT_URL}day_${day.dayId}/index.ts`}
                     >
-                        Voir sur github
+                        Voir sur GitHub
                     </a>
                 ) : (
                     ""
@@ -58,7 +58,7 @@ export default function Home() {
     ));
 
     return (
-        <>
+        <div className="col-lg-6 mx-auto">
             <table className="table table-bordered align-middle">
                 <thead>
                     <tr>
@@ -70,6 +70,6 @@ export default function Home() {
                 </thead>
                 <tbody className="table-group-divider">{rows}</tbody>
             </table>
-        </>
+        </div>
     );
 }
