@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 export default function Home() {
-    const ROOT_URL = "https://github.com/sikado/aoc2022/src/puzzles/";
+    const ROOT_URL = "https://github.com/sikado/aoc2022/blob/main/src/puzzles/";
 
     const progress: Array<{
         dayId: number;
