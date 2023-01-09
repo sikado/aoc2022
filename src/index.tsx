@@ -9,7 +9,7 @@ const rootElement = document.getElementById("root")!;
 const root = createRoot(rootElement);
 root.render(
     <StrictMode>
-        <BrowserRouter>
+        <BrowserRouter basename="/aoc2022">
             <App />
         </BrowserRouter>
     </StrictMode>
