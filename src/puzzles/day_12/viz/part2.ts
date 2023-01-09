@@ -10,7 +10,7 @@ const sketch = (p5: P5) => {
 
     const data: string[] = rawData.split('\n');
 
-    const grid = new Grid(data);
+    const grid = new Grid(data, true);
 
     p5.setup = () => {
         p5.createCanvas(grid._gridSize.w * RECT_SIZE, grid._gridSize.h * RECT_SIZE);
