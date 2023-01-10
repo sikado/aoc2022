@@ -15,7 +15,7 @@ export default function Home() {
         { dayId: 4, part1: true, part2: true },
         { dayId: 5, part1: true, part2: true },
         { dayId: 6, part1: true, part2: true },
-        { dayId: 7, part1: false, part2: false },
+        { dayId: 7, part1: true, part2: true },
         { dayId: 8, part1: false, part2: false },
         { dayId: 9, part1: true, part2: true },
         { dayId: 10, part1: true, part2: true },

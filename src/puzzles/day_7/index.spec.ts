@@ -1,41 +1,33 @@
 import { join } from "path";
 import { getData } from "../utils";
-import { process } from "./index";
+import { FS } from "./index";
 
 describe("Day_7", () => {
     describe("Part 1", () => {
         test("Test case", () => {
-            const data = getData(join(__dirname, "tcase.txt"));
+            const fs = new FS(getData(join(__dirname, "tcase.txt")));
 
-            const output = process(data);
-
-            expect(output).toEqual(95437);
+            expect(fs.getToBeDeletedSize()).toEqual(95437);
         });
 
         test("Puzzle", () => {
-            const data = getData(join(__dirname, "data.txt"));
+            const fs = new FS(getData(join(__dirname, "data.txt")));
 
-            const output = process(data);
-
-            expect(output).toEqual(1886043);
+            expect(fs.getToBeDeletedSize()).toEqual(1886043);
         });
     });
 
     describe("Part 2", () => {
         test("Test case", () => {
-            const data = getData(join(__dirname, "tcase.txt"));
+            const fs = new FS(getData(join(__dirname, "tcase.txt")));
 
-            const output = process(data);
-
-            expect(output).toEqual(24933642);
+            expect(fs.getMinToDeleteDirectory()).toEqual(24933642);
         });
 
         test("Puzzle", () => {
-            const data = getData(join(__dirname, "data.txt"));
+            const fs = new FS(getData(join(__dirname, "data.txt")));
 
-            const output = process(data);
-
-            expect(output).toEqual([""]);
+            expect(fs.getMinToDeleteDirectory()).toEqual(3842121);
         });
     });
 });
