@@ -1,23 +1,25 @@
-import { process } from "./index";
-import { getData } from "../utils";
 import { join } from "path";
+import { getData } from "../utils";
+import { Puzzle } from "./index";
 
-describe.skip("Day_8", () => {
+describe("Day_8", () => {
     describe("Part 1", () => {
         test("Test case", () => {
             const data = getData(join(__dirname, "tcase.txt"));
 
-            const output = process(data);
+            const puzzle = new Puzzle(data);
 
-            expect(output).toEqual([""]);
+            expect(puzzle.part1()).toEqual(21);
         });
 
         test("Puzzle", () => {
             const data = getData(join(__dirname, "data.txt"));
 
-            const output = process(data);
+            const puzzle = new Puzzle(data);
 
-            expect(output).toEqual([""]);
+            const nbVisibleTrees = puzzle.part1();
+
+            expect(nbVisibleTrees).toEqual(1698);
         });
     });
 
@@ -25,17 +27,17 @@ describe.skip("Day_8", () => {
         test("Test case", () => {
             const data = getData(join(__dirname, "tcase.txt"));
 
-            const output = process(data);
+            const puzzle = new Puzzle(data);
 
-            expect(output).toEqual([""]);
+            expect(puzzle.part2()).toEqual(8);
         });
 
         test("Puzzle", () => {
             const data = getData(join(__dirname, "data.txt"));
 
-            const output = process(data);
+            const puzzle = new Puzzle(data);
 
-            expect(output).toEqual([""]);
+            expect(puzzle.part2()).toEqual(672280);
         });
     });
 });
