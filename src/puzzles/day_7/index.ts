@@ -31,65 +31,107 @@ const fs: Directory = {
     parent: undefined,
 };
 
+function getSize(cur: Directory) {
+    if (cur.directories.some(dir => dir.size === undefined)) {
+        throw new Error('Leaving dir with children unexplored')
+    }
+    return cur.files.reduce((acc, val) => acc + val.size, 0) + cur.directories.reduce((acc, val) => acc + val.size!, 0)
+
+}
+
 export function process(data: string[]): number {
-    const cdCMD = /^\$ cd ([\w+/.])$/;
+    const cdCMD = /^\$ cd (\w+|\.{2})$/;
     const lsCMD = /^\$ ls$/;
     const dirPRT = /^dir (\w+)$/;
     const filePRT = /^(\d+) ([\w.]+)$/;
 
-    let cur: Directory;
+    let toBeDeletedSize: number = 0;
+    const MAX_SIZE = 100000;
+
+    let cur = fs;
+
+    // const dirList: Directory[] = []
 
     // Create graph
-    for (let i = 0; i < data.length; i++) {
-        if (cdCMD.test(data[i])) {
-            const foo = cdCMD.exec(data[i]);
-            if (foo) {
+    for (let i = 1; i < data.length; i++) {
+        const parsedCdCmd = cdCMD.exec(data[i]);
+        if (parsedCdCmd != null) {
+            if (parsedCdCmd[1] === '..') {
+                cur.size = getSize(cur);
+
+                // dirList.push(cur);
+
+                if (cur.size < MAX_SIZE) {
+                    toBeDeletedSize += cur.size;
+                }
+
+                if (cur.parent === undefined) {
+                    throw new Error('/ has no parent :\'(');
+                }
+
+                cur = cur.parent;
+            } else {
+                const targetDir = cur.directories.find(dir => dir.name === parsedCdCmd[1])
+                if (targetDir === undefined) {
+                    throw new Error('Directory doesn\'t exists');
+                }
+                cur = targetDir;
             }
-        } else if (data[i].match(lsCMD)) {
         }
-        // If `cd`, move cursor
-        // If `ls`, fill Directory
+
+        if (lsCMD.test(data[i])) {
+            let parsedDir;
+            let parsedFile
+
+            do {
+                i++;
+                if (i > data.length) {
+                    break;
+                }
+                parsedDir = dirPRT.exec(data[i]);
+                parsedFile = filePRT.exec(data[i]);
+
+                if (parsedDir != null) {
+                    cur.directories.push({
+                        name: parsedDir[1],
+                        size: undefined,
+                        type: "dir",
+                        files: [],
+                        directories: [],
+                        parent: cur,
+                    });
+                } else if (parsedFile != null) {
+                    cur.files.push({
+                        name: parsedFile[2],
+                        size: Number.parseInt(parsedFile[1], 10),
+                        type: "file",
+                        parent: cur,
+                    });
+                }
+            } while (parsedDir != null || parsedFile != null)
+            i--;
+        }
     }
 
-    // Sum Dir with only files or with all dir with size
-
-    // If Dir > Threshold Add to cound
-
-    return -1;
-}
-
-function displayNode(item: File | Directory, deepth = 0): string[] {
-    if (isFile(item)) {
-        return [
-            Array(deepth * 2)
-                .fill(" ")
-                .join("") + `- ${item.name} (file, size=${item.size})`,
-        ];
+    while (cur.parent != null) {
+        cur.size = getSize(cur);
+        // dirList.push(cur);
+        if (cur.size < MAX_SIZE) {
+            toBeDeletedSize += cur.size;
+        }
+        cur = cur.parent;
     }
 
-    // If directory
-    return [
-        Array(deepth * 2)
-            .fill(" ")
-            .join("") + `- ${item.name} (dir)`,
-        ...item.directories.map((dir) => displayNode(dir, deepth + 1)).flat(),
-        ...item.files.map((file) => displayNode(file, deepth)).flat(),
-    ];
+    return toBeDeletedSize;
 
-    /* return [
-        "- / (dir)",
-        "  - a (dir)",
-        "  - e (dir)",
-        "    - i (file, size=584)",
-        "    - f (file, size=29116)",
-        "    - g (file, size=2557)",
-        "    - h.lst (file, size=62596)",
-        "    - b.txt (file, size=14848514)",
-        "    - c.dat (file, size=8504156)",
-        "  - d (dir)",
-        "    - j (file, size=4060174)",
-        "    - d.log (file, size=8033020)",
-        "    - d.ext (file, size=5626152)",
-        "    - k (file, size=7214296)",
-    ]; */
+
+    // PART 2
+    /* const missingSpace = 30000000 - (70000000 - fs.size);
+
+    const delta = dirList.map(dir => dir.size! - missingSpace);
+    const minDelta = Math.min(...delta.filter(val => val > 0))
+    const index = delta.indexOf(minDelta);
+
+    return dirList[index].size! */
+
 }

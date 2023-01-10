@@ -1,8 +1,8 @@
-import { process } from "./index";
-import { getData } from "../utils";
 import { join } from "path";
+import { getData } from "../utils";
+import { process } from "./index";
 
-describe.skip("Day_7", () => {
+describe("Day_7", () => {
     describe("Part 1", () => {
         test("Test case", () => {
             const data = getData(join(__dirname, "tcase.txt"));
@@ -17,7 +17,7 @@ describe.skip("Day_7", () => {
 
             const output = process(data);
 
-            expect(output).toEqual(0);
+            expect(output).toEqual(1886043);
         });
     });
 
@@ -27,7 +27,7 @@ describe.skip("Day_7", () => {
 
             const output = process(data);
 
-            expect(output).toEqual([""]);
+            expect(output).toEqual(24933642);
         });
 
         test("Puzzle", () => {
